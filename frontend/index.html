@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SSL-MedBench — Semi-Supervised Learning Medical Benchmarking</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-content">
+        <h1>🩺 SSL-MedBench</h1>
+        <p class="subtitle">Unified Semi-Supervised Learning Benchmark for Medical Datasets</p>
+      </div>
+      <div class="badge-tag">No Neural Networks • Scikit-Learn Strict</div>
+    </header>
+
+    <!-- Error Banner -->
+    <div id="error-banner" class="banner error hidden"></div>
+    <div id="info-banner" class="banner info hidden"></div>
+
+    <!-- Section 1: Data Ingestion & Health Inspection -->
+    <section class="card" id="section-upload">
+      <h2>1. Upload Dataset & Data Health</h2>
+      <div class="upload-controls">
+        <div class="file-dropzone">
+          <input type="file" id="csv-file-input" accept=".csv" />
+          <button class="btn btn-primary" id="upload-btn">Upload CSV</button>
+        </div>
+        <div id="target-selector-container" class="target-select-group hidden">
+          <label for="target-column-select"><strong>Target Column:</strong></label>
+          <select id="target-column-select"></select>
+        </div>
+      </div>
+
+      <div id="health-report-box" class="health-box hidden">
+        <h3>Data Health Summary</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-label">Total Rows</span>
+            <span class="stat-val" id="stat-rows">-</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Features</span>
+            <span class="stat-val" id="stat-cols">-</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Missing Values</span>
+            <span class="stat-val" id="stat-missing">-</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Benchmark Execution & Live Progress -->
+    <section class="card" id="section-execution">
+      <h2>2. Run Benchmark & Progress</h2>
+      <div class="run-actions">
+        <button class="btn btn-success btn-large" id="run-btn" disabled>
+          ▶ Start SSL Benchmark
+        </button>
+        <span class="run-note">Evaluates 5 SSL models × 4 fractions × 5 outer folds with auto-tuning</span>
+      </div>
+
+      <div id="progress-container" class="progress-container hidden">
+        <div class="progress-bar-wrapper">
+          <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%"></div>
+        </div>
+        <div class="progress-status-row">
+          <span id="current-step-text">Initializing...</span>
+          <span id="progress-pct-text">0%</span>
+        </div>
+        <div class="terminal-log" id="terminal-log"></div>
+      </div>
+    </section>
+
+    <!-- Section 3: Benchmark Results & Leaderboard -->
+    <section class="card hidden" id="section-results">
+      <h2>3. Benchmark Results & Leaderboard</h2>
+      
+      <!-- Winner Showcase Banner -->
+      <div id="winner-banner" class="winner-banner"></div>
+
+      <!-- Leaderboard Table -->
+      <div class="table-container">
+        <h3>Leaderboard (Tuned Models)</h3>
+        <table class="data-table" id="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Model</th>
+              <th>F1 (Macro)</th>
+              <th>AUC-ROC</th>
+              <th>Robustness</th>
+              <th>Efficiency</th>
+              <th>Composite Score</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Default vs Tuned Comparison -->
+      <div class="table-container">
+        <h3>Default vs Tuned Comparison</h3>
+        <table class="data-table" id="comparison-table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Default F1</th>
+              <th>Tuned F1</th>
+              <th>Gain (pp)</th>
+              <th>Default Score</th>
+              <th>Tuned Score</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Validation & Stability Summary -->
+      <div class="table-container">
+        <h3>Validation Signals & Convergence</h3>
+        <table class="data-table" id="validation-table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Pseudo-Label Acc</th>
+              <th>Label Stability</th>
+              <th>Converged</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Best Hyperparameters Accordion -->
+      <div class="accordion-container">
+        <h3>Tuned Hyperparameters</h3>
+        <div id="params-accordion"></div>
+      </div>
+
+      <!-- Benchmark Plots -->
+      <div class="plots-grid">
+        <div class="plot-box">
+          <h4>F1 vs Labeled Data Fraction</h4>
+          <img id="f1-plot-img" alt="F1 vs Fraction Plot" class="plot-img" />
+        </div>
+        <div class="plot-box">
+          <h4>Convergence Traces</h4>
+          <img id="conv-plot-img" alt="Convergence Plot" class="plot-img" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Export Artifacts -->
+    <section class="card hidden" id="section-download">
+      <h2>4. Export Artifacts</h2>
+      <div class="export-actions">
+        <div class="export-card">
+          <h4>Mode A: Winning Model</h4>
+          <p>Download full model retrained on all data (.pkl) including fitted StandardScaler.</p>
+          <a id="download-model-btn" class="btn btn-outline" href="#">⬇ Download Model (.pkl)</a>
+        </div>
+        <div class="export-card">
+          <h4>Mode B: Enriched Dataset</h4>
+          <p>Download enriched CSV with pseudo-labels having confidence &gt; 80%.</p>
+          <a id="download-dataset-btn" class="btn btn-outline" href="#">⬇ Download Enriched CSV</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
