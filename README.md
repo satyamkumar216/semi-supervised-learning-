@@ -1,4 +1,5 @@
 # SSL-MedBench: Benchmarking Semi-Supervised Learning in Medicine
+<img width="1895" height="902" alt="image" src="https://github.com/user-attachments/assets/1174586f-b376-4db2-b2ec-917a1551b255" />
 
 **SSL-MedBench** is a benchmarking platform designed to rigorously evaluate and compare Semi-Supervised Learning (SSL) algorithms on clinical and medical datasets. It tests models across varying labeled fractions, tunes them via randomized cross-validation on labeled points, computes multi-dimensional evaluation metrics (F1-macro, AUC-ROC, Robustness, Efficiency), and exports production-ready artifacts.
 
