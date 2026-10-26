@@ -73,7 +73,7 @@ http://localhost:8000
 
 1. **Upload Dataset**: Upload any medical CSV dataset (e.g. Breast Cancer, Heart Disease, Diabetes). The system displays a data health summary and automatically suggests the target column.
 2. **Stratified Label Masking**: Simulates realistic low-resource clinical settings by masking training labels to **5%, 10%, 20%, and 30%** (unlabeled = `-1`).
-3. **Hyperparameter Auto-Tuning**: Performs `RandomizedSearchCV` (20 iterations) using labeled points while supplying the unlabeled pool to the SSL wrapper.
+3. **Hyperparameter Auto-Tuning**: Performs `RandomizedSearchCV` (5 iterations per fold, model, and label fraction) using labeled points while supplying the unlabeled pool to the SSL wrapper.
 4. **5-Fold Cross-Validation**: Evaluates both default and tuned variants on held-out test folds with zero data leakage.
 5. **Multi-Criterion Scoring**:
    $$\text{Score} = 0.4 \times \text{F1} + 0.3 \times \text{AUC} + 0.2 \times \text{Robustness} + 0.1 \times \text{Efficiency}$$

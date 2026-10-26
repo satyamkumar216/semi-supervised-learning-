@@ -24,7 +24,7 @@ TEST_SIZE: float = 0.20        # held-out test fraction (used only in export)
 DEFAULT_LABEL_FRACTIONS: List[float] = [0.05, 0.10, 0.20, 0.30]
 
 # ── Tuning Budget ──────────────────────────────────────────────────
-TUNING_N_ITER: int = 20        # RandomizedSearchCV iterations
+TUNING_N_ITER: int = 5         # RandomizedSearchCV iterations per fold/model/fraction
 TUNING_SCORING: str = "f1_macro"
 TUNING_CV_FOLDS: int = 3       # cross-val folds inside the tuner
 TUNING_CV_FOLDS_SMALL: int = 2 # fallback when labeled samples < MIN_LABELED_FOR_3CV

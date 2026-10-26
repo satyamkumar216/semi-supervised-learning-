@@ -1,11 +1,8 @@
 """
 schemas.py — Pydantic request and response models for SSL-MedBench API.
 """
-
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field
-
-
 # ── Upload Models ──────────────────────────────────────────────────
 
 class DataHealthResponse(BaseModel):

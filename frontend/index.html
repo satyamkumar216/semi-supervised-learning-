@@ -3,177 +3,152 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SSL-MedBench — Semi-Supervised Learning Medical Benchmarking</title>
+  <title>MediLens — Semi-Supervised Learning for Medical Data</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,400;9..144,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="backdrop" aria-hidden="true">
+    <i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i><i class="orb o4"></i>
+    <span class="crosses"></span>
+  </div>
+
+  <div id="error-banner" class="banner error hidden" role="alert"></div>
+  <div id="info-banner" class="banner info hidden" role="status"></div>
+
   <div class="app-container">
-    <!-- Header -->
-    <header class="app-header">
-      <div class="header-content">
-        <h1>🩺 SSL-MedBench</h1>
-        <p class="subtitle">Unified Semi-Supervised Learning Benchmark for Medical Datasets</p>
-      </div>
-      <div class="badge-tag">No Neural Networks • Scikit-Learn Strict</div>
+    <header class="app-header glass">
+      <a class="brand" href="#top">
+        <svg class="logo" viewBox="0 0 48 48" aria-hidden="true">
+          <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2bb8c9"/><stop offset="1" stop-color="#1d8f7e"/></linearGradient></defs>
+          <circle cx="21" cy="21" r="15" fill="rgba(255,255,255,.55)" stroke="url(#lg)" stroke-width="3.5"/>
+          <path d="M21 13v16M13 21h16" stroke="url(#lg)" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M32 32l11 11" stroke="url(#lg)" stroke-width="4.5" stroke-linecap="round"/>
+        </svg>
+        <span><b>MediLens</b><small>Semi-supervised diagnostics lab</small></span>
+      </a>
+      <ol class="stepper" id="stepper">
+        <li class="active" data-step="1"><i>1</i>Upload</li>
+        <li data-step="2"><i>2</i>Benchmark</li>
+        <li data-step="3"><i>3</i>Results</li>
+        <li data-step="4"><i>4</i>Export</li>
+      </ol>
+      <span class="chip"><i class="dot"></i>Classical ML only</span>
     </header>
 
-    <!-- Error Banner -->
-    <div id="error-banner" class="banner error hidden"></div>
-    <div id="info-banner" class="banner info hidden"></div>
-
-    <!-- Section 1: Data Ingestion & Health Inspection -->
-    <section class="card" id="section-upload">
-      <h2>1. Upload Dataset & Data Health</h2>
-      <div class="upload-controls">
-        <div class="file-dropzone">
-          <input type="file" id="csv-file-input" accept=".csv" />
-          <button class="btn btn-primary" id="upload-btn">Upload CSV</button>
-        </div>
-        <div id="target-selector-container" class="target-select-group hidden">
-          <label for="target-column-select"><strong>Target Column:</strong></label>
-          <select id="target-column-select"></select>
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">Clinical benchmarking suite</p>
+        <h1>Sharper readings from <em>far fewer</em> labels.</h1>
+        <p class="lede">Hospitals have mountains of patient records and almost no time to annotate them. MediLens puts five semi-supervised learners through the same fair, leak-free trial and tells you which one to trust.</p>
+        <div class="hero-meta">
+          <div><b>5</b><span>models</span></div>
+          <div><b>4</b><span>label budgets</span></div>
+          <div><b>5</b><span>outer folds</span></div>
         </div>
       </div>
+      <div class="hero-visual glass" aria-hidden="true">
+        <svg viewBox="0 0 320 320" class="scope">
+          <circle class="ring r1" cx="160" cy="160" r="146"/>
+          <circle class="ring r2" cx="160" cy="160" r="112"/>
+          <circle cx="160" cy="160" r="78" fill="rgba(255,255,255,.35)" stroke="rgba(255,255,255,.9)" stroke-width="2"/>
+          <g class="cells">
+            <circle cx="132" cy="140" r="9"/><circle cx="182" cy="128" r="6"/><circle cx="196" cy="176" r="11"/>
+            <circle cx="140" cy="188" r="7"/><circle cx="168" cy="160" r="5"/><circle cx="118" cy="168" r="4"/>
+          </g>
+          <path class="ecg" d="M10 160h70l14-34 20 78 18-60 14 16h164"/>
+        </svg>
+        <span class="float f1">Self-Training</span>
+        <span class="float f2">Label Propagation</span>
+        <span class="float f3">Co-Training</span>
+        <span class="float f4">S3VM</span>
+        <span class="float f5">EM + GMM</span>
+      </div>
+    </section>
 
+    <section class="card glass reveal" id="section-upload">
+      <div class="card-head"><span class="num">01</span><div><h2>Patient dataset</h2><p>Drop a CSV, pick the diagnosis column, and review data health.</p></div></div>
+      <div class="upload-controls">
+        <label class="file-dropzone" id="dropzone" for="csv-file-input">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 33V13M15 21l9-9 9 9M9 36h30" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <strong id="drop-title">Drag a CSV here or click to browse</strong>
+          <span id="drop-sub">Breast cancer, heart disease, diabetes — any labelled clinical table</span>
+          <input type="file" id="csv-file-input" accept=".csv" />
+        </label>
+        <div class="upload-side">
+          <button class="btn btn-primary" id="upload-btn">Upload CSV</button>
+          <div id="target-selector-container" class="target-select-group hidden">
+            <label for="target-column-select">Diagnosis column</label>
+            <select id="target-column-select"></select>
+          </div>
+        </div>
+      </div>
       <div id="health-report-box" class="health-box hidden">
-        <h3>Data Health Summary</h3>
         <div class="stats-grid">
-          <div class="stat-card">
-            <span class="stat-label">Total Rows</span>
-            <span class="stat-val" id="stat-rows">-</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-label">Features</span>
-            <span class="stat-val" id="stat-cols">-</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-label">Missing Values</span>
-            <span class="stat-val" id="stat-missing">-</span>
-          </div>
+          <div class="stat-card"><span class="stat-label">Patient records</span><span class="stat-val" id="stat-rows">-</span></div>
+          <div class="stat-card"><span class="stat-label">Clinical features</span><span class="stat-val" id="stat-cols">-</span></div>
+          <div class="stat-card"><span class="stat-label">Missing values</span><span class="stat-val" id="stat-missing">-</span></div>
         </div>
       </div>
     </section>
 
-    <!-- Section 2: Benchmark Execution & Live Progress -->
-    <section class="card" id="section-execution">
-      <h2>2. Run Benchmark & Progress</h2>
+    <section class="card glass reveal" id="section-execution">
+      <div class="card-head"><span class="num">02</span><div><h2>Run the trial</h2><p>Every model gets the same folds, the same tuning budget, zero leakage.</p></div></div>
       <div class="run-actions">
-        <button class="btn btn-success btn-large" id="run-btn" disabled>
-          ▶ Start SSL Benchmark
-        </button>
-        <span class="run-note">Evaluates 5 SSL models × 4 fractions × 5 outer folds with auto-tuning</span>
+        <button class="btn btn-success btn-large" id="run-btn" disabled>&#9654; Start SSL Benchmark</button>
+        <span class="run-note">5 SSL models &times; 4 label fractions &times; 5 outer folds, auto-tuned</span>
       </div>
-
       <div id="progress-container" class="progress-container hidden">
-        <div class="progress-bar-wrapper">
-          <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%"></div>
+        <div class="monitor">
+          <svg viewBox="0 0 600 60" preserveAspectRatio="none" aria-hidden="true"><path class="trace" d="M0 30h120l12-22 16 48 14-34 10 8h120l12-22 16 48 14-34 10 8h120l12-22 16 48 14-34 10 8h4"/></svg>
         </div>
-        <div class="progress-status-row">
-          <span id="current-step-text">Initializing...</span>
-          <span id="progress-pct-text">0%</span>
-        </div>
+        <div class="progress-bar-wrapper"><div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%"></div></div>
+        <div class="progress-status-row"><span id="current-step-text">Initializing...</span><span id="progress-pct-text">0%</span></div>
         <div class="terminal-log" id="terminal-log"></div>
       </div>
     </section>
 
-    <!-- Section 3: Benchmark Results & Leaderboard -->
-    <section class="card hidden" id="section-results">
-      <h2>3. Benchmark Results & Leaderboard</h2>
-      
-      <!-- Winner Showcase Banner -->
+    <section class="card glass hidden" id="section-results">
+      <div class="card-head"><span class="num">03</span><div><h2>Findings</h2><p>Ranked on F1, AUC, robustness and efficiency.</p></div></div>
       <div id="winner-banner" class="winner-banner"></div>
 
-      <!-- Leaderboard Table -->
-      <div class="table-container">
-        <h3>Leaderboard (Tuned Models)</h3>
+      <div class="table-container"><h3>Leaderboard (tuned models)</h3>
         <table class="data-table" id="leaderboard-table">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Model</th>
-              <th>F1 (Macro)</th>
-              <th>AUC-ROC</th>
-              <th>Robustness</th>
-              <th>Efficiency</th>
-              <th>Composite Score</th>
-              <th>Status</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Rank</th><th>Model</th><th>F1 (Macro)</th><th>AUC-ROC</th><th>Robustness</th><th>Efficiency</th><th>Composite score</th><th>Status</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
-
-      <!-- Default vs Tuned Comparison -->
-      <div class="table-container">
-        <h3>Default vs Tuned Comparison</h3>
+      <div class="table-container"><h3>Default vs tuned</h3>
         <table class="data-table" id="comparison-table">
-          <thead>
-            <tr>
-              <th>Model</th>
-              <th>Default F1</th>
-              <th>Tuned F1</th>
-              <th>Gain (pp)</th>
-              <th>Default Score</th>
-              <th>Tuned Score</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Model</th><th>Default F1</th><th>Tuned F1</th><th>Gain (pp)</th><th>Default score</th><th>Tuned score</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
-
-      <!-- Validation & Stability Summary -->
-      <div class="table-container">
-        <h3>Validation Signals & Convergence</h3>
+      <div class="table-container"><h3>Validation signals &amp; convergence</h3>
         <table class="data-table" id="validation-table">
-          <thead>
-            <tr>
-              <th>Model</th>
-              <th>Pseudo-Label Acc</th>
-              <th>Label Stability</th>
-              <th>Converged</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Model</th><th>Pseudo-label acc</th><th>Label stability</th><th>Converged</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>
-
-      <!-- Best Hyperparameters Accordion -->
-      <div class="accordion-container">
-        <h3>Tuned Hyperparameters</h3>
-        <div id="params-accordion"></div>
-      </div>
-
-      <!-- Benchmark Plots -->
+      <div class="accordion-container"><h3>Tuned hyperparameters</h3><div id="params-accordion"></div></div>
       <div class="plots-grid">
-        <div class="plot-box">
-          <h4>F1 vs Labeled Data Fraction</h4>
-          <img id="f1-plot-img" alt="F1 vs Fraction Plot" class="plot-img" />
-        </div>
-        <div class="plot-box">
-          <h4>Convergence Traces</h4>
-          <img id="conv-plot-img" alt="Convergence Plot" class="plot-img" />
-        </div>
+        <figure class="plot-box"><h4>F1 vs labeled fraction</h4><img id="f1-plot-img" alt="F1 vs fraction plot" class="plot-img" /></figure>
+        <figure class="plot-box"><h4>Convergence traces</h4><img id="conv-plot-img" alt="Convergence plot" class="plot-img" /></figure>
       </div>
     </section>
 
-    <!-- Section 4: Export Artifacts -->
-    <section class="card hidden" id="section-download">
-      <h2>4. Export Artifacts</h2>
+    <section class="card glass hidden" id="section-download">
+      <div class="card-head"><span class="num">04</span><div><h2>Take it with you</h2><p>Ready-to-deploy artifacts from the winning model.</p></div></div>
       <div class="export-actions">
-        <div class="export-card">
-          <h4>Mode A: Winning Model</h4>
-          <p>Download full model retrained on all data (.pkl) including fitted StandardScaler.</p>
-          <a id="download-model-btn" class="btn btn-outline" href="#">⬇ Download Model (.pkl)</a>
-        </div>
-        <div class="export-card">
-          <h4>Mode B: Enriched Dataset</h4>
-          <p>Download enriched CSV with pseudo-labels having confidence &gt; 80%.</p>
-          <a id="download-dataset-btn" class="btn btn-outline" href="#">⬇ Download Enriched CSV</a>
-        </div>
+        <div class="export-card"><h4>Winning model</h4><p>Retrained on all data, saved as .pkl with its fitted StandardScaler.</p><a id="download-model-btn" class="btn btn-outline" href="#">&#8595; Download model (.pkl)</a></div>
+        <div class="export-card"><h4>Enriched dataset</h4><p>Your CSV plus pseudo-labels for every record above 80% confidence.</p><a id="download-dataset-btn" class="btn btn-outline" href="#">&#8595; Download enriched CSV</a></div>
       </div>
     </section>
-  </div>
 
+    <footer class="foot">MediLens &middot; research tool, not a diagnostic device</footer>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>

@@ -247,8 +247,11 @@ def run_benchmark(
 
             for model_name, model_class in MODEL_REGISTRY.items():
                 current_step += 1
-                pct = int((current_step / total_steps) * 90)
-                step_msg = f"Fold {fold_idx + 1}/{N_OUTER_FOLDS} | Frac {int(frac*100)}% | {model_name}"
+                pct = max(1, int((current_step / total_steps) * 90))
+                step_msg = (
+                    f"Fold {fold_idx + 1}/{N_OUTER_FOLDS} | "
+                    f"Frac {int(frac*100)}% | Tuning {model_name}"
+                )
                 if progress_callback:
                     progress_callback(pct, step_msg, f"Running {model_name}...")
 
