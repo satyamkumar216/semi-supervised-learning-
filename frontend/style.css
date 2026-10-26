@@ -52,8 +52,8 @@ body {
 }
 
 .badge-tag {
-  background-color: #312e81;
-  color: #c7d2fe;
+  background-color: #4338ca;
+  color: #e0e7ff;
   padding: 6px 12px;
   border-radius: 9999px;
   font-size: 0.8rem;
@@ -370,4 +370,298 @@ select {
 
 .hidden {
   display: none !important;
+}
+
+:root {
+  --bg-color: #eaf3f8;
+  --card-bg: rgba(255, 255, 255, 0.66);
+  --border-color: rgba(255, 255, 255, 0.82);
+  --text-main: #15344a;
+  --text-muted: #547286;
+  --primary: #0789b8;
+  --primary-hover: #08769d;
+  --success: #087fa9;
+  --success-hover: #066c91;
+  --winner-bg: rgba(211, 245, 239, 0.72);
+  --winner-border: #4ab7a4;
+  --glass-shadow: 0 18px 48px rgba(37, 79, 106, 0.14);
+}
+
+html {
+  min-height: 100%;
+  background: #e4eff5 url("assets/background.png") center / cover fixed no-repeat;
+}
+
+body {
+  min-height: 100vh;
+  padding: clamp(16px, 3vw, 40px);
+  background: transparent;
+  color: var(--text-main);
+}
+
+.app-container {
+  max-width: 1160px;
+  gap: 22px;
+}
+
+.app-header {
+  padding: 22px 26px;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.app-header h1 {
+  color: #123c56;
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  letter-spacing: -0.04em;
+}
+
+.subtitle {
+  margin-top: 4px;
+}
+
+.badge-tag {
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: rgba(10, 128, 170, 0.14);
+  color: #075878;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.card {
+  gap: 20px;
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.card h2 {
+  color: #087da6;
+  border-bottom-color: rgba(35, 105, 138, 0.15);
+  letter-spacing: -0.02em;
+}
+
+.card h3,
+.export-card h4,
+.plot-box h4 {
+  color: #214d66;
+}
+
+.btn {
+  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: 13px;
+  box-shadow: 0 8px 20px rgba(22, 105, 139, 0.16);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(22, 105, 139, 0.24);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, rgba(39, 174, 214, 0.99), rgba(13, 129, 174, 1));
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #20a5ce, #08769d);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, rgba(32, 170, 178, 0.99), rgba(8, 126, 162, 1));
+  color: #fff;
+}
+
+.btn-success:hover:not(:disabled) {
+  background: linear-gradient(135deg, #15999f, #066c91);
+}
+
+.btn-outline {
+  border-color: rgba(7, 137, 184, 0.36);
+  background: rgba(255, 255, 255, 0.82);
+  color: #08799f;
+}
+
+.btn-outline:hover:not(:disabled) {
+  background: rgba(8, 137, 184, 0.14);
+  color: #075878;
+}
+
+.btn:focus-visible,
+select:focus-visible,
+input:focus-visible,
+.accordion-header:focus-visible {
+  outline: 3px solid rgba(8, 137, 184, 0.42);
+  outline-offset: 3px;
+}
+
+.btn:disabled {
+  opacity: 0.78;
+  box-shadow: none;
+}
+
+.btn-large {
+  min-height: 54px;
+  padding-inline: 28px;
+  border-radius: 16px;
+}
+
+.file-dropzone {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+input[type="file"] {
+  max-width: 100%;
+  color: var(--text-muted);
+}
+
+input[type="file"]::file-selector-button {
+  margin-right: 10px;
+  padding: 10px 14px;
+  border: 1px solid rgba(7, 137, 184, 0.24);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.86);
+  color: #17617d;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+select {
+  border-color: rgba(50, 111, 141, 0.22);
+  background: rgba(255, 255, 255, 0.66);
+  color: var(--text-main);
+}
+
+.stat-card,
+.plot-box,
+.export-card,
+.accordion-item {
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 24px rgba(37, 79, 106, 0.08);
+}
+
+.stat-val {
+  color: #126c91;
+}
+
+.progress-bar-wrapper {
+  border-color: rgba(44, 107, 137, 0.16);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.progress-bar-fill {
+  background: linear-gradient(90deg, #38b8d7, #30b6a2);
+}
+
+.terminal-log {
+  border-color: rgba(8, 57, 78, 0.24);
+  background: rgba(13, 44, 61, 0.94);
+  color: #9ce7f1;
+}
+
+.winner-banner {
+  border-width: 1px;
+  border-radius: 17px;
+}
+
+.winner-banner h3 {
+  color: #087f75;
+}
+
+.data-table th {
+  background: rgba(220, 239, 247, 0.76);
+  color: #315b71;
+}
+
+.data-table td {
+  color: #28495d;
+}
+
+.data-table th,
+.data-table td {
+  border-bottom-color: rgba(49, 104, 133, 0.13);
+}
+
+.highlight-row {
+  background: rgba(198, 239, 226, 0.42);
+}
+
+.accordion-header {
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.52);
+  color: #214d66;
+}
+
+.accordion-body {
+  border-radius: 0 0 15px 15px;
+  background: rgba(241, 248, 251, 0.78);
+  color: #31566b;
+  overflow-wrap: anywhere;
+}
+
+.banner {
+  border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(37, 79, 106, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.banner.error {
+  border-color: rgba(220, 78, 78, 0.38);
+  background: rgba(255, 238, 238, 0.86);
+  color: #9d3030;
+}
+
+.banner.info {
+  border-color: rgba(8, 137, 184, 0.3);
+  background: rgba(229, 247, 253, 0.86);
+  color: #145b78;
+}
+
+@media (max-width: 640px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  .app-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .plots-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .target-select-group {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

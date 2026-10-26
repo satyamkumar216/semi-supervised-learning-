@@ -58,6 +58,32 @@ function showInfo(msg) {
   setTimeout(() => infoBanner.classList.add("hidden"), 4000);
 }
 
+async function readJsonResponse(response, fallbackMessage) {
+  const body = await response.text();
+  let data;
+
+  if (body.trim()) {
+    try {
+      data = JSON.parse(body);
+    } catch {
+      if (response.ok) {
+        throw new Error(`Server returned an invalid or incomplete response (HTTP ${response.status}).`);
+      }
+    }
+  }
+
+  if (!response.ok) {
+    const detail = data && typeof data === "object" ? data.detail : null;
+    throw new Error(detail || `${fallbackMessage} (HTTP ${response.status}).`);
+  }
+
+  if (data === undefined || data === null) {
+    throw new Error(`Server returned an empty response (HTTP ${response.status}).`);
+  }
+
+  return data;
+}
+
 // ── 1. File Upload & Inspection ───────────────────────────────────
 
 async function uploadFile() {
@@ -77,11 +103,7 @@ async function uploadFile() {
       method: "POST",
       body: formData,
     });
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.detail || "Upload failed");
-    }
-    const data = await res.json();
+    const data = await readJsonResponse(res, "Upload failed");
     currentFileId = data.file_id;
 
     // Populate target select dropdown (default to last column)
@@ -132,11 +154,7 @@ async function startRun() {
         target_column: targetCol,
       }),
     });
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.detail || "Failed to start run");
-    }
-    const data = await res.json();
+    const data = await readJsonResponse(res, "Failed to start run");
     currentJobId = data.job_id;
     pollStatus();
     pollInterval = setInterval(pollStatus, 2000);
@@ -151,8 +169,7 @@ async function pollStatus() {
 
   try {
     const res = await fetch(`${API_BASE}/status/${currentJobId}`);
-    if (!res.ok) return;
-    const status = await res.json();
+    const status = await readJsonResponse(res, "Could not retrieve benchmark status");
 
     progressBarFill.style.width = `${status.progress_pct}%`;
     progressPctText.textContent = `${status.progress_pct}%`;
@@ -172,6 +189,10 @@ async function pollStatus() {
     }
   } catch (err) {
     console.error("Polling error:", err);
+    clearInterval(pollInterval);
+    pollInterval = null;
+    runBtn.disabled = false;
+    showError(`Could not retrieve benchmark status: ${err.message}`);
   }
 }
 
@@ -180,8 +201,7 @@ async function pollStatus() {
 async function loadResults() {
   try {
     const res = await fetch(`${API_BASE}/results/${currentJobId}`);
-    if (!res.ok) throw new Error("Could not retrieve results");
-    const results = await res.json();
+    const results = await readJsonResponse(res, "Could not retrieve results");
 
     renderWinner(results.winner);
     renderLeaderboard(results.leaderboard);
